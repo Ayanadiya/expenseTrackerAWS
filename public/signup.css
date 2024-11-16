@@ -1,0 +1,15 @@
+.header {
+    background-color: aliceblue;
+    color: blueviolet;
+    box-sizing: content-box;
+}
+
+.form {
+      background-color: blueviolet;
+      color: aliceblue;
+      max-height: 600px;
+      max-width: 300px;
+      align-content: center;
+      display: flex;
+
+}
