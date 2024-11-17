@@ -11,8 +11,11 @@ const app=express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,'views')));
+app.use('/Domjs', express.static(path.join(__dirname, 'Domjs')));
 
-app.use('/',(req,res) =>{res.sendFile(path.join(__dirname,'views','signup.html'))} );
+app.use('/user', userRouter);
+
+app.use('/',(req,res) =>{res.sendFile(path.join(__dirname,'views','login.html'))} );
 sequelise.sync()
 .then(result => {
     console.log('database ready');
