@@ -1,4 +1,3 @@
-
 function signUp(event) {
     event.preventDefault();
     const name=document.getElementById('username').value;
@@ -15,9 +14,19 @@ function signUp(event) {
     }
     axios.post('http://127.0.0.1:3000/user/signup', user)
     .then(res => {
-        console.log(res);
+        if(res.status===201)
+        {
+            alert('Your account created Successfully')
+        }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        if(err.status===400)
+        {
+            alert('This email already exist!');
+        }
+        else
+        {
+            alert('Something went wrong. Please try again');
+        }
+    });
 }
-
-module.exports=signUp;

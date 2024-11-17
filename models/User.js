@@ -1,7 +1,5 @@
 const Sequelize= require('sequelize');
 const sequelize= require('../utils/database');
-const { type } = require('os');
-const { timeStamp } = require('console');
 
 const User = sequelize.define('users', {
     id:{
@@ -16,7 +14,8 @@ const User = sequelize.define('users', {
     },
     email:{
         type:Sequelize.STRING,
-        allowNull:false
+        allowNull:false,
+        unique:true
     },
     password:{
         type:Sequelize.STRING,

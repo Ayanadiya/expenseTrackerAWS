@@ -9,7 +9,16 @@ exports.postSignUp = ((req,res, next) =>{
         email:email,
         password:password
     }).then(result => {
-        console.log(result);
+        return res.status(201);
     })
-    .catch(err => console.log(err))
+    .catch(err =>{
+        if(err.name==='SequelizeUniqueConstraintError')
+        {
+            return res.status(400);
+        }
+        else
+        {
+            return res.status(500);
+        }
+    })
 })
