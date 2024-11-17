@@ -1,5 +1,6 @@
 const { where } = require('sequelize');
 const User=require('../models/User');
+const path=require('path');
 
 exports.postSignUp = ((req,res, next) =>{
     const name=req.body.name;
@@ -32,11 +33,15 @@ exports.postlogin =((req,res,next) => {
         {
             if(user.password===password)
             {
-                res.status(200).json({message: 'Login Successsfull'})
+               return res.status(200).json({message: 'Login Successsfull'});
             }
-            res.json({message:"Incorrect password"})
+            return res.status(401).json({message:"User not authorized"});
         }
-        res.json({message:'User not found'})
+        res.status(404).json({message:'User not found'});
     })
     .catch(err => console.log(err));
+})
+
+exports.getsignup = ((req, res, next) => {
+    res.sendFile(path.join(__dirname,'../','views','signup.html'));
 })

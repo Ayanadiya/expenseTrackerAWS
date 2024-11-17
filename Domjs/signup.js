@@ -48,13 +48,26 @@ function login(event) {
     }
     axios.post('http://127.0.0.1:3000/user/login', user )
     .then(result => {
-        alert(result.response.data.message);
+        if(result.status===200)
+        {
+            return alert(result.data.message);
+        }  
     })
-    .catch(err => console.log(err));
+    .catch(error => {
+          if(error.status===401)
+          {
+            return alert('User not authorized');
+          }
+          if(error.status===404)
+          {
+            return alert('User not found');
+          }
+          console.log(result);
+    });
 }
 
-function getsignUp() {
-    axios.get('http://127.0.0.1:3000/')
-    .then(result => console.log(result))
-    .catch(err => console.log(err))
-}
+//function getsignUp() {
+ //   axios.get('http://127.0.0.1:3000/user/getSignup')
+ //   .then(result => console.log(result))
+ //   .catch(err => console.log(err))
+//}
