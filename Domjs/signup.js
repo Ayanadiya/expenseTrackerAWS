@@ -18,7 +18,7 @@ function signUp(event) {
     .then(res => {
         if(res.status===201)
         {
-            alert('Your account created Successfully')
+            alert(res.data.message);
         }
     })
     .catch(err => {
@@ -65,9 +65,3 @@ function login(event) {
           console.log(result);
     });
 }
-
-//function getsignUp() {
- //   axios.get('http://127.0.0.1:3000/user/getSignup')
- //   .then(result => console.log(result))
- //   .catch(err => console.log(err))
-//}
