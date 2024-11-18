@@ -50,7 +50,8 @@ function login(event) {
     .then(result => {
         if(result.status===200)
         {
-            return alert(result.data.message);
+            alert(result.data.message);
+            window.location.href='http://127.0.0.1:3000/expense';
         }  
     })
     .catch(error => {

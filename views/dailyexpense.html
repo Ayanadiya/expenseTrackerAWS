@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker App Daily Expenses</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+</head>
+<body>
+    <header class="bg-primary text-white text-center py-3">Expense Tracker</header>
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-md-6 col-12">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Add Expense</h3>
+                    <form onsubmit="addDailyexpense(event)">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" class="form-control" id="amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Detail</label>
+                            <input type="text" class="form-control" id="description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select name="category" id="category" class="form-select">
+                                <option value="fuel">Fuel</option>
+                                <option value="food">Food</option>
+                                <option value="housing">Housing</option>
+                                <option value="transportation">Transportation</option>
+                                <option value="utilities">Utilities</option>
+                                <option value="insurance">Insurance</option>
+                                <option value="medical">Medical</option>
+                                <option value="entertainment">Entertainment</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-block">Add Expense</button>
+                        </div>
+                    </form>
+                </div>
+            </div>     
+        </div>  
+    </div>
+    <div>
+        <ul id="expenselist"></ul>
+    </div>
+    <script src='/Domjs/expenses.js'></script>
+</body>
+</html>
