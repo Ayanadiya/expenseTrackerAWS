@@ -11,8 +11,8 @@ const app=express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,'views')));
 app.use('/Domjs', express.static(path.join(__dirname, 'Domjs')));
+app.use(express.static(path.join(__dirname,'views')));
 
 app.use('/user', userRouter);
 app.use('/expense', expenseRouter);

@@ -39,18 +39,17 @@ exports.postlogin =async(req,res,next) => {
                 const isMatch= await bcrypt.compare(password,user.password)
                 if(isMatch)
                 {
-                    return res.status(200).json({message:'login successfull'});
+                    return res.status(200).redirect('/expenses');
                 }
                 else
                 {
-                return res.status(401).json({message:"User not authorized"})
+                 res.status(401).json({message:"User not authorized"})
                 }
             }    
             res.status(404).json({message:'User not found'});
+    } catch(err) {
+        res.status(500).json(err);
     }
-    catch(err) {
-        console.log(err);
-    };
 }
 
 exports.getsignup = ((req, res, next) => {

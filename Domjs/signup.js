@@ -50,9 +50,10 @@ function login(event) {
     .then(result => {
         if(result.status===200)
         {
-            alert(result.data.message);
-            window.location.href='http://127.0.0.1:3000/expense';
-        }  
+            alert('Logined successfully');
+            window.location.href = '/expense'
+        }
+        document.querySelector('form').reset();
     })
     .catch(error => {
           if(error.status===401)
@@ -63,6 +64,6 @@ function login(event) {
           {
             return alert('User not found');
           }
-          console.log(result);
+          console.log(error);
     });
 }

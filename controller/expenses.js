@@ -18,15 +18,31 @@ exports.postdailyexpense = async (req,res,next) => {
             description:desc,
             category:category
         })
-        return res.status(200).json({message:'Expense added'});
+        return res.status(200).json(expense);
     }catch(error) {
         console.log(error);
         return res.status(500)
     }   
 }
 
+exports.getExpenses = async (req,res,next) => {
+    try{
+       const expenses=await Expense.findAll();
+       res.json(expenses);
+    }
+    catch(err) {
+        res.json(err);
+    }
+}
+
 exports.deleteexpense= async (req,res,next) => {
     const id=req.params.id;
-    const expense=findByPk(id);
+    try {
+        const expense= await Expense.findByPk(id);
+        const result= await expense.destroy();
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json(error);
+    }
     
 }

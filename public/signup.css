@@ -1,0 +1,49 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.form-container {
+    flex: 1;  /* Takes up the top portion of the screen */
+    padding: 20px;
+}
+
+.expense-list-container {
+    flex: 3;  /* Takes up 3/4 of the remaining space */
+    padding: 20px;
+    overflow-y: auto; /* Makes sure the list scrolls if needed */
+}
+
+#expenselist {
+    list-style-type: none;
+    padding: 0;
+}
+
+.expense-item {
+    background-color: #f8f9fa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expense-item button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.expense-item button:hover {
+    background-color: #c82333;
+}
