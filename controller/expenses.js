@@ -8,15 +8,18 @@ exports.getdailyexpensespage = ((req, res, next) => {
 });
 
 exports.postdailyexpense = async (req,res,next) => {
+    console.log(req);
     const amount = req.body.amount;
     const desc = req.body.description;
     const category = req.body.category;
+    const userId =req.user.id;
 
     try{
         const expense = await Expense.create({
             amount:amount,
             description:desc,
-            category:category
+            category:category,
+            userId:userId
         })
         return res.status(200).json(expense);
     }catch(error) {
@@ -27,7 +30,7 @@ exports.postdailyexpense = async (req,res,next) => {
 
 exports.getExpenses = async (req,res,next) => {
     try{
-       const expenses=await Expense.findAll();
+       const expenses=await Expense.findAll({where:{userId:req.user.id}});
        res.json(expenses);
     }
     catch(err) {

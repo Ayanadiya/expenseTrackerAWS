@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
     if (!token) {
         console.error('No token found');
       }
-    axios.get('http://127.0.0.1:3000/expense/getexpense',{Headers:{'Authorization':token}})
+    axios.get('http://127.0.0.1:3000/expense/getexpense',{headers: { 'Authorization': `Bearer ${token}` }})
     .then(result => {
         const expenses=result.data;
         console.log(expenses);
@@ -21,6 +21,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
 function addDailyexpense(event) {
     event.preventDefault();
+    const token=localStorage.getItem('token');
+    if (!token) {
+        console.error('No token found');
+      }
     const amount=document.getElementById('amount').value;
     const description=document.getElementById('description').value;
     const category= document.getElementById('category').value;
@@ -29,7 +33,7 @@ function addDailyexpense(event) {
         description,
         category
     }
-    axios.post('http://127.0.0.1:3000/expense/addexpense', expense)
+    axios.post('http://127.0.0.1:3000/expense/addexpense',expense,{headers: { 'Authorization': `Bearer ${token}` }})
     .then(result => {
         if(result.status===200)
         {
