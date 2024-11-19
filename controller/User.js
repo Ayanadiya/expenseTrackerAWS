@@ -2,8 +2,15 @@ const { where } = require('sequelize');
 const User=require('../models/User');
 const path=require('path');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const saltrounds=10;
+
+const secretkey='mydata';
+
+function generateAccesstoken(id,name) {
+    return jwt.sign({userId:id, name:name}, secretkey);
+}
 
 exports.postSignUp = async(req,res, next) =>{
     const name=req.body.name;
@@ -39,7 +46,7 @@ exports.postlogin =async(req,res,next) => {
                 const isMatch= await bcrypt.compare(password,user.password)
                 if(isMatch)
                 {
-                    return res.status(200).redirect('/expenses');
+                    return res.status(200).json({message:'User login successfully', token:generateAccesstoken(user.id,user.name)});
                 }
                 else
                 {

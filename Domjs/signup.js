@@ -19,6 +19,7 @@ function signUp(event) {
         if(res.status===201)
         {
             alert(res.data.message);
+            window.location.href='/user/login';
         }
     })
     .catch(err => {
@@ -50,7 +51,8 @@ function login(event) {
     .then(result => {
         if(result.status===200)
         {
-            alert('Logined successfully');
+            alert(result.data.message);
+            localStorage.setItem('token', result.data.token);
             window.location.href = '/expense'
         }
         document.querySelector('form').reset();

@@ -1,7 +1,11 @@
 const expenselist=document.getElementById('expenselist');
 
 window.addEventListener('DOMContentLoaded', ()=>{
-    axios.get('http://127.0.0.1:3000/expense/getexpense')
+    const token=localStorage.getItem('token');
+    if (!token) {
+        console.error('No token found');
+      }
+    axios.get('http://127.0.0.1:3000/expense/getexpense',{Headers:{'Authorization':token}})
     .then(result => {
         const expenses=result.data;
         console.log(expenses);
