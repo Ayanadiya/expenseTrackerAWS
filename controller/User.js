@@ -21,7 +21,8 @@ exports.postSignUp = async(req,res, next) =>{
         const user= await User.create({
             name:name,
             email:email,
-            password:hashpassword
+            password:hashpassword,
+            isPremiumuser:false
         })
             console.log(user);
             return res.status(201).json({message:"User account created"});
