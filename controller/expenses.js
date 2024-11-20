@@ -1,6 +1,7 @@
 const path= require('path');
 
 const Expense=require('../models/expenses');
+const Leaderboard=require('../models/expenses');
 const { ECDH } = require('crypto');
 
 exports.getdailyexpensespage = ((req, res, next) => {
@@ -25,6 +26,7 @@ exports.postdailyexpense = async (req,res,next) => {
             category:category,
             userId:userId
         })
+        addtoleaderboard(amount,userId);
         return res.status(200).json(expense);
     }catch(error) {
         console.log(error);
@@ -52,4 +54,13 @@ exports.deleteexpense= async (req,res,next) => {
         res.status(500).json(error);
     }
     
+}
+
+function addtoleaderboard(amount,userId) {
+    Leaderboard.findByPk(userId)
+    .then(lead => {
+        lead.totalexpense+=amount;
+        lead.save();       
+    })
+    .catch(err => console.log(err));
 }

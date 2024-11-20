@@ -2,6 +2,7 @@
 
 const expenselist=document.getElementById('expenselist');
 
+
 window.addEventListener('DOMContentLoaded', ()=>{
     const token=localStorage.getItem('token');
     if (!token) {
@@ -99,4 +100,30 @@ document.getElementById('rzp-button').onclick = async function(e) {
         console.log(response);
         alert('Something went wrong');
     })
+}
+
+const leaderboard=document.getElementById('leadlist');
+
+document.getElementById('ldrbrd-button').onclick() = async function(e) {
+    e.preventDefault();
+    try {
+        const leadlist=await axios.get(`http://127.0.0.1:3000/premium/leaderboard`)
+        const leads=leadlist.data;
+        if(leaderboard!=null)
+        {
+            leaderboard.innerHTML='';
+        }
+        leads.forEach(lead => {
+            addtoleaderboard(lead);
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addtoleaderboard(lead){
+    const newli=document.createElement('li');
+    newli.className="list-group-item";
+    newli.textContent=`Name:${lead.name}-Expense:${lead.totalexpense}`;
+    leaderboard.appendChild(newli);
 }
