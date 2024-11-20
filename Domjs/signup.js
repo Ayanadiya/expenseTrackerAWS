@@ -19,6 +19,7 @@ function signUp(event) {
         if(res.status===201)
         {
             alert(res.data.message);
+           
             window.location.href='/user/login';
         }
     })
@@ -53,7 +54,16 @@ function login(event) {
         {
             alert(result.data.message);
             localStorage.setItem('token', result.data.token);
-            window.location.href = '/expense'
+            console.log(result.data.premium);
+            if(result.data.premium===true)
+                {
+                    window.location.href='/expense/premium'
+                }
+            else
+            {
+                 window.location.href = '/expense'
+            }    
+           
         }
         document.querySelector('form').reset();
     })

@@ -7,6 +7,10 @@ exports.getdailyexpensespage = ((req, res, next) => {
     res.sendFile(path.join(__dirname, '../', 'views', 'dailyexpense.html'));
 });
 
+exports.getpremiumexpensepage = ((req,res,next) => {
+    res.sendFile(path.join(__dirname,'../','views','premiumexpense.html'));
+})
+
 exports.postdailyexpense = async (req,res,next) => {
     console.log(req);
     const amount = req.body.amount;

@@ -22,7 +22,7 @@ exports.postSignUp = async(req,res, next) =>{
             name:name,
             email:email,
             password:hashpassword,
-            isPremiumuser:false
+            isPremiumuser:'false'
         })
             console.log(user);
             return res.status(201).json({message:"User account created"});
@@ -44,10 +44,11 @@ exports.postlogin =async(req,res,next) => {
         const user= await User.findOne({where:{email:email}})
         if(user)
             {
+                const isPremiumuser=user.isPremiumuser;
                 const isMatch= await bcrypt.compare(password,user.password)
                 if(isMatch)
                 {
-                    return res.status(200).json({message:'User login successfully', token:generateAccesstoken(user.id,user.name)});
+                    return res.status(200).json({message:'User login successfully', token:generateAccesstoken(user.id,user.name), premium:isPremiumuser});
                 }
                 else
                 {

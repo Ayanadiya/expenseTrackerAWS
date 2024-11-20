@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser= require('body-parser');
 const path=require('path');
+const cors=require('cors');
 
 const sequelise= require('./utils/database');
 
@@ -14,6 +15,7 @@ const purchaseRouter=require('./router/purchase');
 
 const app=express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/Domjs', express.static(path.join(__dirname, 'Domjs')));

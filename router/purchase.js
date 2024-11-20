@@ -8,6 +8,6 @@ const authenticate = require('../middleware/authentication');
 
 router.get('/premiummembership', authenticate.authenticate, purchaseController.purchasePremium );
 
-router.post('updatetransactionstatus', authenticate.authenticate, purchaseController.updateTransactionStatus);
+router.post('/updatetransactionstatus', authenticate.authenticate, purchaseController.updateTransactionStatus);
 
 module.exports= router;
