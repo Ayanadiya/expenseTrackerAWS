@@ -1,7 +1,5 @@
-
-
+const leaderboard=document.getElementById('leadlist');
 const expenselist=document.getElementById('expenselist');
-
 
 window.addEventListener('DOMContentLoaded', ()=>{
     const token=localStorage.getItem('token');
@@ -74,33 +72,26 @@ function deleteexpense(listitem, id){
   .catch(err => console.log(err));
 }
 
-document.getElementById('rzp-button').onclick = async function(e) {
-    const token=localStorage.getItem('token');
-    console.log("Purhasing premium request about to send");
-    const response= await axios.get(`http://127.0.0.1:3000/purchase/premiummembership`, {headers: { 'Authorization': `Bearer ${token}` }})
-    console.log(response);
-    var options ={
-        key:response.data.key_id,
-        order_id:response.data.order.id,
-        handler: async function(response){
-            console.log("success handler");
-            await axios.post(`http://127.0.0.1:3000/purchase/updatetransactionstatus`, {
-                order_id:options.order_id,
-                payment_id:response.razorpay_payment_id,
-            }, {headers: { 'Authorization': `Bearer ${token}` }})
-            alert('You are a Premium User Now');
-            window.location.href='/expense/premium';
-        },
-    };
-    const rzp1= new Razorpay(options);
-    rzp1.open();
-    e.preventDefault();
-
-    rzp1.on('payment.failed', function(response){
-        console.log(response);
-        alert('Something went wrong');
-    })
+document.getElementById('ldrbrd-button').onclick = async function(e) {
+    try {
+        const leadlist=await axios.get(`http://127.0.0.1:3000/premium/leaderboard`)
+        const leads=leadlist.data;
+        if(leaderboard!=null)
+        {
+            leaderboard.innerHTML='';
+        }
+        leads.forEach(lead => {
+            addtoleaderboard(lead);
+        })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-
+function addtoleaderboard(lead){
+    const newli=document.createElement('li');
+    newli.className="list-group-item";
+    newli.textContent=`Name:${lead.name}-Expense:${lead.total}`;
+    leaderboard.appendChild(newli);
+}
 
