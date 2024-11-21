@@ -1,8 +1,11 @@
 const path= require('path');
+const sequelize=require('../utils/database');
 
 const Expense=require('../models/expenses');
 const User=require('../models/User');
 const { ECDH } = require('crypto');
+const { where } = require('sequelize');
+
 
 exports.getdailyexpensespage = ((req, res, next) => {
     res.sendFile(path.join(__dirname, '../', 'views', 'dailyexpense.html'));
@@ -13,7 +16,7 @@ exports.getpremiumexpensepage = ((req,res,next) => {
 })
 
 exports.postdailyexpense = async (req,res,next) => {
-    console.log(req);
+    const t=await sequelize.transaction();
     const amount = req.body.amount;
     const desc = req.body.description;
     const category = req.body.category;
@@ -25,13 +28,13 @@ exports.postdailyexpense = async (req,res,next) => {
             description:desc,
             category:category,
             userId:userId
-        })
-        const user = await User.findByPk(userId);
-        const updatedtotalexpense= Number(user.totalexpense) +Number(amount);
-        user.totalexpense=updatedtotalexpense;
-        await user.save();
+        },{transaction:t})
+        const updatedtotalexpense= Number(req.user.totalexpense) +Number(amount);
+        await User.update({totalexpense:updatedtotalexpense},{where:{id:userId},transaction:t});
+        await t.commit();
         return res.status(200).json(expense);
     }catch(error) {
+        await t.rollback();
         console.log(error);
         return res.status(500)
     }   
@@ -48,12 +51,19 @@ exports.getExpenses = async (req,res,next) => {
 }
 
 exports.deleteexpense= async (req,res,next) => {
+    const t=await sequelize.transaction();
+    console.log( "req",req);
     const id=req.params.id;
     try {
-        const expense= await Expense.findByPk(id);
-        const result= await expense.destroy();
+        const expense= await Expense.findByPk(id,{transaction:t});
+        const result= await expense.destroy({transaction:t});
+        const user= await User.findByPk(expense.userId,{transaction:t});
+        const updatedtotalexpense= Number(user.totalexpense) -Number(expense.amount);
+        await User.update({totalexpense:updatedtotalexpense},{where:{id:expense.userId},transaction:t});
+        await t.commit();
         res.status(204).send();
     } catch (error) {
+        await t.rollback();
         res.status(500).json(error);
     }
     
