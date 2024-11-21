@@ -68,6 +68,7 @@ function login(event) {
         document.querySelector('form').reset();
     })
     .catch(error => {
+        console.log(error);
           if(error.status===401)
           {
             return alert('User not authorized');
@@ -76,6 +77,6 @@ function login(event) {
           {
             return alert('User not found');
           }
-          console.log(error);
+          
     });
 }

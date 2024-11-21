@@ -23,7 +23,6 @@ exports.postSignUp = async(req,res, next) =>{
             email:email,
             password:hashpassword,
             isPremiumuser:'false',
-            totalexpense:0
         })
             console.log(user);
             return res.status(201).json({message:"User account created"});
@@ -53,7 +52,7 @@ exports.postlogin =async(req,res,next) => {
                 }
                 else
                 {
-                 res.status(401).json({message:"User not authorized"})
+                  return res.status(401).json({message:"User not authorized"})
                 }
             }    
             res.status(404).json({message:'User not found'});

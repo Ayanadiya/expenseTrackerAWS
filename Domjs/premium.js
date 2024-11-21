@@ -91,7 +91,7 @@ document.getElementById('ldrbrd-button').onclick = async function(e) {
 function addtoleaderboard(lead){
     const newli=document.createElement('li');
     newli.className="list-group-item";
-    newli.textContent=`Name:${lead.name}-Expense:${lead.totalamount}`;
+    newli.textContent=`Name:${lead.name}-Expense:${lead.totalexpense}`;
     leaderboard.appendChild(newli);
 }
 

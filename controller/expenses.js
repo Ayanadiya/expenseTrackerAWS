@@ -27,9 +27,9 @@ exports.postdailyexpense = async (req,res,next) => {
             userId:userId
         })
         const user = await User.findByPk(userId);
-        const updatedtotalexpense= user.totalexpense +amount;
+        const updatedtotalexpense= Number(user.totalexpense) +Number(amount);
         user.totalexpense=updatedtotalexpense;
-        user.save();
+        await user.save();
         return res.status(200).json(expense);
     }catch(error) {
         console.log(error);

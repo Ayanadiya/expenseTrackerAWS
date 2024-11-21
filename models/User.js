@@ -24,7 +24,7 @@ const User = sequelize.define('users', {
     isPremiumuser:Sequelize.BOOLEAN,
     totalexpense:{
         type:Sequelize.DOUBLE,
-        allowNull:false
+        defaultValue:0,
     }
 },{
     timeStamp:false
