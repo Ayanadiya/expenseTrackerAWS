@@ -8,4 +8,8 @@ router.get('/', passwordController.getForm);
 
 router.post('/forgotpassword', passwordController.getPassword);
 
+router.get('/resetpassword/:id', passwordController.resetPassword);
+
+router.post('/updatepassword', passwordController.updatePassword);
+
 module.exports=router;
