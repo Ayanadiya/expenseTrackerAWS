@@ -22,7 +22,8 @@ exports.postSignUp = async(req,res, next) =>{
             name:name,
             email:email,
             password:hashpassword,
-            isPremiumuser:'false'
+            isPremiumuser:'false',
+            totalexpense:0
         })
             console.log(user);
             return res.status(201).json({message:"User account created"});

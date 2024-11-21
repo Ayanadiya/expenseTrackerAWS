@@ -16,7 +16,7 @@ exports.purchasePremium = async (req,res) => {
         })
         const amount=50.00*100;
         console.log("amount added");
-        rzp.orders.create({amount,currency:"INR"}, (err, order) => {
+        rzp.orders.create({amount, currency:"INR"}, (err, order) => {
             if(err)
             {
                 console.log(JSON.stringify(err));
