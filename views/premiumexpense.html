@@ -8,7 +8,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
 </head>
 <body>
-    <header class="bg-primary text-white text-center py-3">Expense Tracker</header>
+    <header class="bg-primary text-white text-center py-3">
+        <h1>Expense Tracker</h1>
+        <nav>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/expense/premium">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/premium/daily">Daily Income & Expense</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/premium/weekly">Weekly Income & Expense</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/premium/monthly">Monthly Income & Expense</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <div class="container mt-5">
         <h3 class="display-3 text-center text-primary">You are a Premium User</h3>
     </div>
@@ -44,8 +62,9 @@
                             <button type="submit" class="btn btn-primary btn-block">Add Expense</button>
                         </div>
                     </form>
+                    <br>
                     <div>
-                        <button id="ldrbrd-button">Show LeaderBoard</button>
+                        <button id="ldrbrd-button" class="btn btn-primary btn-block">Show LeaderBoard</button>
                     </div>
                 </div>
             </div>     

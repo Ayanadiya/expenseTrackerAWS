@@ -8,7 +8,7 @@ const { where } = require('sequelize');
 
 
 exports.getdailyexpensespage = ((req, res, next) => {
-    res.sendFile(path.join(__dirname, '../', 'views', 'dailyexpense.html'));
+    res.sendFile(path.join(__dirname, '../', 'views', 'expense.html'));
 });
 
 exports.getpremiumexpensepage = ((req,res,next) => {
