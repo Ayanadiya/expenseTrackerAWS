@@ -89,6 +89,8 @@ document.getElementById('rzp-button').onclick = async function(e) {
                 payment_id:response.razorpay_payment_id,
             }, {headers: { 'Authorization': `Bearer ${token}` }})
             alert('You are a Premium User Now');
+            localStorage.removeItem('user');
+            localStorage.setItem('user',true);
             window.location.href='/expense/premium';
         },
     };
@@ -102,5 +104,25 @@ document.getElementById('rzp-button').onclick = async function(e) {
     })
 }
 
+function download(){
+    const token=localStorage.getItem('token');
+    axios.get('http://localhost:3000/premium/download', { headers: {"Authorization" : token} })
+    .then((response) => {
+        if(response.status === 201){
+            //the bcakend is essentially sending a download link
+            //  which if we open in browser, the file would download
+            var a = document.createElement("a");
+            a.href = response.data.fileUrl;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else {
+            throw new Error(response.data.message)
+        }
+
+    })
+    .catch((err) => {
+        showError(err)
+    });
+}
 
 

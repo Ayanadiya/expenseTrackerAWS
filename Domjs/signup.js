@@ -54,13 +54,15 @@ function login(event) {
         {
             alert(result.data.message);
             localStorage.setItem('token', result.data.token);
-            console.log(result.data.premium);
+            console.log(result.data.premium);          
             if(result.data.premium===true)
                 {
+                    localStorage.setItem('user', true);
                     window.location.href='/expense/premium'
                 }
             else
             {
+                 localStorage.setItem('user', false);
                  window.location.href = '/expense'
             }    
            

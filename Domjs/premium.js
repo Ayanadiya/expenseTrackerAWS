@@ -1,3 +1,5 @@
+
+
 const leaderboard=document.getElementById('leadlist');
 const expenselist=document.getElementById('expenselist');
 
@@ -95,3 +97,57 @@ function addtoleaderboard(lead){
     leaderboard.appendChild(newli);
 }
 
+function download(){
+    const token=localStorage.getItem('token');
+    axios.get('http://localhost:3000/premium/download', { headers: {"Authorization" : token} })
+    .then((response) => {
+        if(response.status === 200){
+            //the bcakend is essentially sending a download link
+            //  which if we open in browser, the file would download
+            var a = document.createElement("a");
+            a.href = response.data.fileURL;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else {
+            throw new Error(response.data.message)
+        }
+
+    })
+    .catch((err) => {
+        showError(err)
+    });
+}
+
+function downloadedfiles(){
+    console.log('calling axios toget download list');
+    const token=localStorage.getItem('token');
+    axios.get('http://localhost:3000/premium/downloadedfiles', { headers: {"Authorization" : token} })
+    .then((response) => {
+        const links=response.data;
+        if(links.length>0)
+        {
+            const downloadlinks=document.getElementById('downloads');
+            if(downloadlinks!==null)
+            {
+                downloadlinks.innerHTML='';
+            }
+            links.forEach(link => {
+                const newli=document.createElement('li');
+                newli.textContent=`Date:${link.createdAt}`;
+                var a = document.createElement("a");
+                a.href = link.links;
+                a.textContent=`Download file`
+                newli.appendChild(a);
+                downloadlinks.appendChild(newli);
+            })
+        }
+        else
+        {
+            alert('No links to download');
+        }
+    }
+    )
+    .catch((err) => {
+        console.log(err);
+    });
+}

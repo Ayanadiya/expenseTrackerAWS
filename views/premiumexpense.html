@@ -10,22 +10,6 @@
 <body>
     <header class="bg-primary text-white text-center py-3">
         <h1>Expense Tracker</h1>
-        <nav>
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/expense/premium">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/premium/daily">Daily Income & Expense</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/premium/weekly">Weekly Income & Expense</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/premium/monthly">Monthly Income & Expense</a>
-                </li>
-            </ul>
-        </nav>
     </header>
     <div class="container mt-5">
         <h3 class="display-3 text-center text-primary">You are a Premium User</h3>
@@ -67,16 +51,30 @@
                         <button id="ldrbrd-button" class="btn btn-primary btn-block">Show LeaderBoard</button>
                     </div>
                 </div>
-            </div>     
+            </div>  
+            <div>
+                <button onclick="download()" class="btn btn-primary btn-block">Download Expenses</button>
+            </div> 
+            <br>
+            <div>
+                <button onclick="downloadedfiles()" class="btn btn-primary btn-block">Downloaded Files</button>
+            </div>  
         </div>  
+    </div>
+    <div>
+        <ul id="downloads"></ul>
     </div>
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <h3>My Expenses</h3>
-        <ul id="expenselist"></ul>
+        <div>
+            <ul id="expenselist"></ul>
+        </div>       
     </div>
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <h3>LeaderBoard</h3>
-        <ul id="leadlist"></ul>
+        <div>
+            <ul id="leadlist"></ul>
+        </div>
     </div>
     <script src='/Domjs/premium.js' ></script>
 </body>

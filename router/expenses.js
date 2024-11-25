@@ -5,7 +5,7 @@ const router= express.Router();
 const expenseController = require('../controller/expenses');
 const authenticate = require('../middleware/authentication');
 
-router.get('/', expenseController.getdailyexpensespage);
+router.get('/', expenseController.getexpensepage);
 
 router.get('/premium', expenseController.getpremiumexpensepage);
 

@@ -10,22 +10,6 @@
 <body>
     <header class="bg-primary text-white text-center py-3">
         <h1>Expense Tracker</h1>
-        <nav>
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/expense">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/premium/daily">Daily Income & Expense</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/premium/weekly">Weekly Income & Expense</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/premium/monthly">Monthly Income & Expense</a>
-                </li>
-            </ul>
-        </nav>
     </header>
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="col-md-6 col-12">
@@ -59,6 +43,13 @@
                             <button type="submit" class="btn btn-primary btn-block">Add Expense</button>
                         </div>
                     </form>
+                    <div>
+                        <button id="rzp-button">Buy Premium</button>
+                    </div>
+                    <br>
+                    <div>
+                        <button onclick="download()" class="btn btn-primary btn-block">Download Expenses</button>
+                    </div>
                 </div>
             </div>     
         </div>  
@@ -67,6 +58,7 @@
         <h3>My Expenses</h3>
         <ul id="expenselist"></ul>
     </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src='/Domjs/expenses.js' ></script>
 </body>
 </html>

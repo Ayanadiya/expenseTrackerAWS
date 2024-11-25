@@ -7,13 +7,14 @@ const { ECDH } = require('crypto');
 const { where } = require('sequelize');
 
 
-exports.getdailyexpensespage = ((req, res, next) => {
+exports.getexpensepage = ((req, res, next) => {
     res.sendFile(path.join(__dirname, '../', 'views', 'expense.html'));
 });
 
 exports.getpremiumexpensepage = ((req,res,next) => {
     res.sendFile(path.join(__dirname,'../','views','premiumexpense.html'));
 })
+
 
 exports.postdailyexpense = async (req,res,next) => {
     const t=await sequelize.transaction();
@@ -50,6 +51,7 @@ exports.getExpenses = async (req,res,next) => {
     }
 }
 
+
 exports.deleteexpense= async (req,res,next) => {
     const t=await sequelize.transaction();
     console.log( "req",req);
@@ -67,5 +69,18 @@ exports.deleteexpense= async (req,res,next) => {
         res.status(500).json(error);
     }
     
+}
+
+async function getdailyexpense(date) {
+    try {
+        const expenses = await Expense.findAll({
+            where: Sequelize.and(
+                Sequelize.where(Sequelize.fn('DATE', Sequelize.col('createdAt')), '=', date)  // Extracts the date part from createdAt
+            )
+        });
+        return expenses;
+    } catch (error) {
+        console.error('Error fetching total date-wise expenses:', error);
+    }
 }
 
