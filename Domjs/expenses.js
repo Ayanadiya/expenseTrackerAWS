@@ -3,7 +3,14 @@ const expenselist=document.getElementById('expenselist');
 const paginationContainer = document.getElementById('pagination');
 let currentPage = 1;
 let totalPages = 1;
-const itemsPerPage = 5;
+let itemsPerPage = 5;
+
+function changeItemsPerPage() {
+    itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+    localStorage.setItem('itemsPerPage', JSON.stringify(itemsPerPage)) ;
+    currentPage = 1;  
+    loadExpenses();
+}
 
 const token = localStorage.getItem('token');
 
@@ -120,6 +127,7 @@ function download(){
 }
 
 function loadExpenses(page) {
+    let itemsPerPage=JSON.parse(localStorage.getItem('itemsPerPage'));
     axios.get(`http://127.0.0.1:3000/expense/getexpense?page=${page}&limit=${itemsPerPage}`, {
         headers: { 'Authorization': `Bearer ${token}` }
     })

@@ -68,6 +68,21 @@
         </div>  
         
     </div>
+    <!-- Dropdown to select number of items per page -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <label for="itemsPerPage">Items per Page:</label>
+                <select id="itemsPerPage" class="form-control" onchange="changeItemsPerPage()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <!-- Pagination Section -->
     <div class="pagination-container">
         <nav aria-label="Page navigation">
