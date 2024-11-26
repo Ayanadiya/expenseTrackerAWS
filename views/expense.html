@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker App Daily Expenses</title>
+    <link rel="preload" href="/Domjs/expenses.js" as="script">
+    <link rel="preload" href="../public/signup.css" as="style">
+    <link rel="stylesheet" href="../public/signup.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
 </head>
@@ -11,8 +14,11 @@
     <header class="bg-primary text-white text-center py-3">
         <h1>Expense Tracker</h1>
     </header>
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="col-md-6 col-12">
+
+    <div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
+        
+        <!-- Form Section -->
+        <div class="form-container col-md-6 col-12 mb-4">
             <div class="card shadow-lg">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-4">Add Expense</h3>
@@ -27,10 +33,10 @@
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label>
-                            <select name="category" id="category" class="form-select">
+                            <select name="category" id="category" class="form-control">
                                 <option value="fuel">Fuel</option>
                                 <option value="food">Food</option>
-                                <option value="housing">Housing</option>               
+                                <option value="housing">Housing</option>
                                 <option value="transportation">Transportation</option>
                                 <option value="utilities">Utilities</option>
                                 <option value="insurance">Insurance</option>
@@ -43,28 +49,35 @@
                             <button type="submit" class="btn btn-primary btn-block">Add Expense</button>
                         </div>
                     </form>
-                    <div>
-                        <button id="rzp-button">Buy Premium</button>
-                    </div>
-                    <br>
-                    <div>
-                        <button onclick="download()" class="btn btn-primary btn-block">Download Expenses</button>
-                    </div>
                 </div>
-            </div>     
+            </div>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="col-md-6 col-12 mb-4">
+            <div class="d-flex justify-content-between">
+                <button id="rzp-button" class="btn btn-success btn-block">Buy Premium</button>
+                <button onclick="download()" class="btn btn-info btn-block">Download Expenses</button>
+            </div>
+        </div>
+
+        <!-- Expense List Section -->
+        <div class="expense-list-container col-md-6 col-12 mb-4">
+            <h3 class="text-center">My Expenses</h3>
+            <ul id="expenselist" class="list-group"></ul>
         </div>  
+        
     </div>
-    <div class="container">
-        <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-            <h3>My Expenses</h3>
-            <ul id="expenselist"></ul>
-        </div>
-        <div id="pagination" class="d-flex justify-content-center my-3">
-            <!-- Pagination buttons will appear here -->
-        </div>
+    <!-- Pagination Section -->
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id= "pagination">
+                <!-- Pagination buttons will be inserted dynamically -->
+            </ul>
+        </nav>
     </div>
-    
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src='/Domjs/expenses.js' ></script>
+    <script src='/Domjs/expenses.js'></script>
 </body>
 </html>

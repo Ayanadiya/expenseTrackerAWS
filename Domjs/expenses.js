@@ -1,27 +1,19 @@
 
-
 const expenselist=document.getElementById('expenselist');
+const paginationContainer = document.getElementById('pagination');
+let currentPage = 1;
+let totalPages = 1;
+const itemsPerPage = 5;
 
+const token = localStorage.getItem('token');
 
-window.addEventListener('DOMContentLoaded', ()=>{
-    const token=localStorage.getItem('token');
+window.addEventListener('DOMContentLoaded', () => {
     if (!token) {
         console.error('No token found');
-      }
-    axios.get(`http://127.0.0.1:3000/expense/getexpense`,{headers: { 'Authorization': `Bearer ${token}` }})
-    .then(result => {
-        const { expenses, totalExpenses, totalPages, currentPage } = result.data;
-        expenselist.innerHTML = '';
-        if(expenses!=null)
-        {
-            expenses.forEach(expense => {
-                addtolist(expense);
-            })
-        } 
-        renderPagination(currentPage, totalPages);       
-    })
-    .catch(err => console.log(err));
-})
+    }
+    loadExpenses(currentPage);
+});
+
 
 function addDailyexpense(event) {
     event.preventDefault();
@@ -122,38 +114,83 @@ function download(){
 
     })
     .catch((err) => {
-        showError(err)
+        alert(err.response.data.message);
+       console.log(err);
     });
 }
 
+function loadExpenses(page) {
+    axios.get(`http://127.0.0.1:3000/expense/getexpense?page=${page}&limit=${itemsPerPage}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(result => {
+        const { expenses, totalExpenses, totalPages } = result.data;
+
+        // Set totalPages dynamically
+        window.totalPages = totalPages;
+
+        // Clear existing expense list
+        expenselist.innerHTML = '';
+
+        // Add expenses to the list
+        expenses.forEach(expense => {
+            addtolist(expense);
+        });
+
+        // Render pagination controls
+        renderPagination(currentPage, totalPages);
+    })
+    .catch(err => console.log(err));
+}
+
+
+// Render pagination controls (Previous, Next, and page numbers)
 function renderPagination(currentPage, totalPages) {
-    const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = '';
+    if(paginationContainer!==null)
+    {
+    paginationContainer.innerHTML = ''; // Clear existing pagination
+    }
 
     // Previous Button
-    const prevButton = document.createElement('button');
-    prevButton.textContent = "Previous";
-    prevButton.disabled = currentPage === 1;
-    prevButton.onclick = () => changePage(currentPage - 1);
+    const prevButton = document.createElement('li');
+    prevButton.className = "page-item";
+    const prevLink = document.createElement('a');
+    prevLink.className = "page-link";
+    prevLink.textContent = "Previous";
+    prevLink.href = "#";
+    prevLink.onclick = () => changePage(currentPage - 1);
+    prevButton.appendChild(prevLink);
+    prevButton.classList.toggle('disabled', currentPage === 1);
     paginationContainer.appendChild(prevButton);
 
     // Page Numbers
     for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.disabled = i === currentPage;
-        pageButton.onclick = () => changePage(i);
+        const pageButton = document.createElement('li');
+        pageButton.className = "page-item";
+        const pageLink = document.createElement('a');
+        pageLink.className = "page-link";
+        pageLink.textContent = i;
+        pageLink.href = "#";
+        pageLink.onclick = () => changePage(i);
+        pageButton.appendChild(pageLink);
+        pageButton.classList.toggle('active', i === currentPage);
         paginationContainer.appendChild(pageButton);
     }
 
     // Next Button
-    const nextButton = document.createElement('button');
-    nextButton.textContent = "Next";
-    nextButton.disabled = currentPage === totalPages;
-    nextButton.onclick = () => changePage(currentPage + 1);
+    const nextButton = document.createElement('li');
+    nextButton.className = "page-item";
+    const nextLink = document.createElement('a');
+    nextLink.className = "page-link";
+    nextLink.textContent = "Next";
+    nextLink.href = "#";
+    nextLink.onclick = () => changePage(currentPage + 1);
+    nextButton.appendChild(nextLink);
+    nextButton.classList.toggle('disabled', currentPage === totalPages);
     paginationContainer.appendChild(nextButton);
 }
 
+// Change page when a user clicks a pagination button
 function changePage(page) {
     if (page > 0 && page <= totalPages) {
         currentPage = page;

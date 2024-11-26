@@ -47,3 +47,20 @@ body, html {
 .expense-item button:hover {
     background-color: #c82333;
 }
+
+/* Ensuring the form takes up the top 1/4th of the screen */
+.form-container {
+    height: 25vh;
+}
+
+/* Centering the expense list and pagination */
+.expense-list-container {
+    height: 50vh;
+    overflow-y: auto;  /* Scroll if list is too long */
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
