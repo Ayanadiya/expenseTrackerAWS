@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const path=require('path');
 const cors=require('cors');
+const helmet=require('helmet');
+const compression=require('compression');
+const morgan=require('morgan');
+const fs=require('fs');
 
 const sequelise= require('./utils/database');
 
@@ -17,8 +21,16 @@ const purchaseRouter=require('./router/purchase');
 const premiumRouter=require('./router/premium');
 const passwordRouter=require('./router/password');
 
+const accessLogStream=fs.createWriteStream(
+    path.join(__dirname,'access.log'),
+    {flags:'a'}
+);
+
 const app=express();
 
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined', {stream:accessLogStream}));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
