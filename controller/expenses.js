@@ -43,8 +43,23 @@ exports.postdailyexpense = async (req,res,next) => {
 
 exports.getExpenses = async (req,res,next) => {
     try{
-       const expenses=await Expense.findAll({where:{userId:req.user.id}});
-       res.json(expenses);
+        const page=req.query.page || 1;
+        const limit=req.query.limit || 10;
+        const offset = (page - 1) * limit; 
+
+       const expenses=await Expense.findAll({where:{userId:req.user.id},
+            limit:limit,
+            offset:offset
+    });
+    const totalExpenses = await Expense.count({
+        where: { userId: req.user.id },
+    });
+    res.json({
+        expenses,
+        totalExpenses,
+        totalPages: Math.ceil(totalExpenses / limit),
+        currentPage: parseInt(page),
+    });
     }
     catch(err) {
         res.json(err);

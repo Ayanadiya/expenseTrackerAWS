@@ -8,16 +8,17 @@ window.addEventListener('DOMContentLoaded', ()=>{
     if (!token) {
         console.error('No token found');
       }
-    axios.get('http://127.0.0.1:3000/expense/getexpense',{headers: { 'Authorization': `Bearer ${token}` }})
+    axios.get(`http://127.0.0.1:3000/expense/getexpense`,{headers: { 'Authorization': `Bearer ${token}` }})
     .then(result => {
-        const expenses=result.data;
-        console.log(expenses);
+        const { expenses, totalExpenses, totalPages, currentPage } = result.data;
+        expenselist.innerHTML = '';
         if(expenses!=null)
         {
             expenses.forEach(expense => {
                 addtolist(expense);
             })
-        }        
+        } 
+        renderPagination(currentPage, totalPages);       
     })
     .catch(err => console.log(err));
 })
@@ -36,7 +37,7 @@ function addDailyexpense(event) {
         description,
         category
     }
-    axios.post('http://127.0.0.1:3000/expense/addexpense',expense,{headers: { 'Authorization': `Bearer ${token}` }})
+    axios.post(`http://127.0.0.1:3000/expense/addexpense`,expense,{headers: { 'Authorization': `Bearer ${token}` }})
     .then(result => {
         if(result.status===200)
         {
@@ -125,4 +126,37 @@ function download(){
     });
 }
 
+function renderPagination(currentPage, totalPages) {
+    const paginationContainer = document.getElementById('pagination');
+    paginationContainer.innerHTML = '';
 
+    // Previous Button
+    const prevButton = document.createElement('button');
+    prevButton.textContent = "Previous";
+    prevButton.disabled = currentPage === 1;
+    prevButton.onclick = () => changePage(currentPage - 1);
+    paginationContainer.appendChild(prevButton);
+
+    // Page Numbers
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.disabled = i === currentPage;
+        pageButton.onclick = () => changePage(i);
+        paginationContainer.appendChild(pageButton);
+    }
+
+    // Next Button
+    const nextButton = document.createElement('button');
+    nextButton.textContent = "Next";
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.onclick = () => changePage(currentPage + 1);
+    paginationContainer.appendChild(nextButton);
+}
+
+function changePage(page) {
+    if (page > 0 && page <= totalPages) {
+        currentPage = page;
+        loadExpenses(currentPage);
+    }
+}
