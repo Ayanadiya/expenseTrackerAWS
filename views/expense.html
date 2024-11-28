@@ -22,7 +22,7 @@
             <div class="card shadow-lg">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-4">Add Expense</h3>
-                    <form onsubmit="addDailyexpense(event)">
+                    <form id="addDailyexpense">
                         <div class="form-group">
                             <label for="amount">Amount</label>
                             <input type="number" class="form-control" id="amount" required>
@@ -57,7 +57,7 @@
         <div class="col-md-6 col-12 mb-4">
             <div class="d-flex justify-content-between">
                 <button id="rzp-button" class="btn btn-success btn-block">Buy Premium</button>
-                <button onclick="download()" class="btn btn-info btn-block">Download Expenses</button>
+                <button id="download" class="btn btn-info btn-block">Download Expenses</button>
             </div>
         </div>
 
@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <label for="itemsPerPage">Items per Page:</label>
-                <select id="itemsPerPage" class="form-control" onchange="changeItemsPerPage()">
+                <select id="itemsPerPage" class="form-control" >
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>

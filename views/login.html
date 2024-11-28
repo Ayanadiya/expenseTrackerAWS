@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker App Login Page</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdnjs.cloudflare.com;">
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
 </head>
@@ -14,7 +16,7 @@
             <div class="card shadow-lg">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-4">Login</h3>
-                    <form onsubmit="login(event)">
+                    <form id="login">
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" required>
@@ -37,6 +39,6 @@
             </div>     
         </div>  
     </div>
-    <script src='/Domjs/signup.js'></script>
+    <script src='/Domjs/login.js'></script>
 </body>
 </html>

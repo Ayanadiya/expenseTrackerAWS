@@ -29,6 +29,12 @@ const accessLogStream=fs.createWriteStream(
 const app=express();
 
 app.use(helmet());
+
+app.use((req, res, next) => {
+    res.setHeader("Content-Security-Policy", "script-src 'self' https://cdnjs.cloudflare.com");
+    next();
+});
+
 app.use(compression());
 app.use(morgan('combined', {stream:accessLogStream}));
 app.use(cors());
@@ -36,6 +42,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/Domjs', express.static(path.join(__dirname, 'Domjs')));
 app.use(express.static(path.join(__dirname,'views')));
+
 
 app.use('/user', userRouter);
 app.use('/expense', expenseRouter);

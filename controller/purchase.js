@@ -4,8 +4,8 @@ const User= require('../models/User');
 const { where } = require('sequelize');
 
 require('dotenv').config();
-const id=process.env.RazorKey_Id;
-const secret=process.env.RazorKeySecret;
+const id=process.env.RAZORPAY_KEY;
+const secret=process.env.RAZORPAY_KEYSECRET;
 
 exports.purchasePremium = async (req,res) => {
     try {

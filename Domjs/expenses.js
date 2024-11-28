@@ -5,6 +5,13 @@ let currentPage = 1;
 let totalPages = 1;
 let itemsPerPage = 5;
 
+document.getElementById('download').addEventListener('click', download)
+
+document.getElementById('addDailyexpense').addEventListener('submit', addDailyexpense);
+
+document.getElementById('itemsPerPage').addEventListener('click', changeItemsPerPage);
+
+
 function changeItemsPerPage() {
     itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
     localStorage.setItem('itemsPerPage', JSON.stringify(itemsPerPage)) ;
@@ -28,9 +35,14 @@ function addDailyexpense(event) {
     if (!token) {
         console.error('No token found');
       }
-    const amount=document.getElementById('amount').value;
+    const amount=parseFloat(document.getElementById('amount').value);
     const description=document.getElementById('description').value;
     const category= document.getElementById('category').value;
+    if (isNaN(amount) || amount <= 0) {
+        console.error('Invalid amount');
+        alert('Please enter a valid amount.');
+        return;
+    }
     const expense={
         amount,
         description,
@@ -76,21 +88,18 @@ function deleteexpense(listitem, id){
 
 document.getElementById('rzp-button').onclick = async function(e) {
     const token=localStorage.getItem('token');
-    console.log("Purhasing premium request about to send");
     const response= await axios.get(`http://127.0.0.1:3000/purchase/premiummembership`, {headers: { 'Authorization': `Bearer ${token}` }})
     console.log(response);
     var options ={
         key:response.data.key_id,
         order_id:response.data.order.id,
         handler: async function(response){
-            console.log("success handler");
             await axios.post(`http://127.0.0.1:3000/purchase/updatetransactionstatus`, {
                 order_id:options.order_id,
                 payment_id:response.razorpay_payment_id,
             }, {headers: { 'Authorization': `Bearer ${token}` }})
             alert('You are a Premium User Now');
             localStorage.removeItem('user');
-            localStorage.setItem('user',true);
             window.location.href='/expense/premium';
         },
     };
@@ -104,13 +113,13 @@ document.getElementById('rzp-button').onclick = async function(e) {
     })
 }
 
+
 function download(){
+    console.log('sending to axios');
     const token=localStorage.getItem('token');
     axios.get('http://localhost:3000/premium/download', { headers: {"Authorization" : token} })
     .then((response) => {
-        if(response.status === 201){
-            //the bcakend is essentially sending a download link
-            //  which if we open in browser, the file would download
+        if(response.status === 200){
             var a = document.createElement("a");
             a.href = response.data.fileUrl;
             a.download = 'myexpense.csv';
@@ -136,30 +145,21 @@ function loadExpenses(page) {
 
         // Set totalPages dynamically
         window.totalPages = totalPages;
-
-        // Clear existing expense list
-        expenselist.innerHTML = '';
-
-        // Add expenses to the list
+        expenselist.innerHTML = ''
         expenses.forEach(expense => {
             addtolist(expense);
         });
-
-        // Render pagination controls
         renderPagination(currentPage, totalPages);
     })
     .catch(err => console.log(err));
 }
 
-
-// Render pagination controls (Previous, Next, and page numbers)
 function renderPagination(currentPage, totalPages) {
     if(paginationContainer!==null)
     {
-    paginationContainer.innerHTML = ''; // Clear existing pagination
+    paginationContainer.innerHTML = '';
     }
 
-    // Previous Button
     const prevButton = document.createElement('li');
     prevButton.className = "page-item";
     const prevLink = document.createElement('a');
@@ -171,7 +171,6 @@ function renderPagination(currentPage, totalPages) {
     prevButton.classList.toggle('disabled', currentPage === 1);
     paginationContainer.appendChild(prevButton);
 
-    // Page Numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement('li');
         pageButton.className = "page-item";
@@ -185,7 +184,6 @@ function renderPagination(currentPage, totalPages) {
         paginationContainer.appendChild(pageButton);
     }
 
-    // Next Button
     const nextButton = document.createElement('li');
     nextButton.className = "page-item";
     const nextLink = document.createElement('a');
@@ -198,7 +196,6 @@ function renderPagination(currentPage, totalPages) {
     paginationContainer.appendChild(nextButton);
 }
 
-// Change page when a user clicks a pagination button
 function changePage(page) {
     if (page > 0 && page <= totalPages) {
         currentPage = page;
