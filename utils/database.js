@@ -9,7 +9,7 @@ const password=process.env.MYSQL_PASSWORD
 
 const sequelize = new Sequelize( databasename, username, password,{
     dialect:'mysql',
-    host:'localhost'
+    host:process.env.MYSQL_HOST
 })
 
 module.exports=sequelize;
