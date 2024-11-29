@@ -88,7 +88,7 @@ function deleteexpense(listitem, id){
 
 document.getElementById('rzp-button').onclick = async function(e) {
     const token=localStorage.getItem('token');
-    const response= await axios.get(`http://127.0.0.1:3000/purchase/premiummembership`, {headers: { 'Authorization': `Bearer ${token}` }})
+    const response= await axios.get(`http://16.170.246.115:3000/purchase/premiummembership`, {headers: { 'Authorization': `Bearer ${token}` }})
     console.log(response);
     var options ={
         key:response.data.key_id,
