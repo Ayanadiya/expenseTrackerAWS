@@ -13,7 +13,7 @@ function signUp(event) {
         email,
         password
     }
-    axios.post('http://127.0.0.1:3000/user/signup', user)
+    axios.post('http://16.170.246.115:3000/user/signup', user)
     .then(res => {
         if(res.status===201)
         {
