@@ -17,7 +17,6 @@ exports.getPassword = async (req,res,next) => {
         const user = await User.findOne({where : { email }});
         const id = uuid.v4();
         await user.createForgotpassword({ id , active: true })
-        console.log("recieved request");
         const client=Sib.ApiClient.instance;
         const apiKey = client.authentications['api-key'];
         apiKey.apiKey=process.env.API_KEY

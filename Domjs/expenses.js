@@ -97,6 +97,7 @@ document.getElementById('rzp-button').onclick = async function(e) {
             await axios.post(`http://16.170.246.115:3000/purchase/updatetransactionstatus`, {
                 order_id:options.order_id,
                 payment_id:response.razorpay_payment_id,
+                status:'success'
             }, {headers: { 'Authorization': `Bearer ${token}` }})
             alert('You are a Premium User Now');
             localStorage.removeItem('user');
@@ -107,11 +108,24 @@ document.getElementById('rzp-button').onclick = async function(e) {
     rzp1.open();
     e.preventDefault();
 
-    rzp1.on('payment.failed', function(response){
+    rzp1.on('payment.failed', async function(response){
         console.log(response);
-        alert('Something went wrong');
-    })
-}
+        try{
+            await axios.post(`http://16.170.246.115:3000/purchase/updatetransactionstatus`, {
+                order_id: options.order_id,
+                payment_id: response.error.metadata.payment_id,
+                status: 'failed'
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            alert('Payment failed. Please try again.');
+        }catch (error) {
+            console.error('Error updating transaction status on failure:', error);
+            alert('Error updating transaction status.');
+        };
+    });
+};
 
 
 function download(){

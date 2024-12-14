@@ -81,16 +81,4 @@ exports.deleteexpense= async (req,res,next) => {
     
 }
 
-async function getdailyexpense(date) {
-    try {
-        const expenses = await Expense.findAll({
-            where: Sequelize.and(
-                Sequelize.where(Sequelize.fn('DATE', Sequelize.col('createdAt')), '=', date)  // Extracts the date part from createdAt
-            )
-        });
-        return expenses;
-    } catch (error) {
-        console.error('Error fetching total date-wise expenses:', error);
-    }
-}
 

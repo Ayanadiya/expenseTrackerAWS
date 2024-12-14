@@ -38,15 +38,22 @@ exports.purchasePremium = async (req,res) => {
 exports.updateTransactionStatus = async (req,res) => {
     try {
         console.log('request recieved on updatestatus');
-        const {payment_id, order_id} = req.body
+        const {payment_id, order_id,status} = req.body
         const order = await Order.findOne({where:{orderid:order_id}});
-        order.paymentid=payment_id;
-        order.status='Successful'
+        if(status==='failed')
+        {
+            order.paymentid=payment_id;
+            order.status='failed;'
+        }else if(status="success"){
+            order.paymentid=payment_id;
+            order.status='Successful'
+            const user= await User.findOne({where:{id:order.userId}})
+            user.isPremiumuser="true";
+            await user.save();
+        }
         await order.save();
-        const user= await User.findOne({where:{id:order.userId}})
-        user.isPremiumuser="true";
-        await user.save();
-        return res.status(202).json({success:true, message:"Transaction Successfull"})
+        
+        return res.status(202).json({success:true, message:status === 'failed' ? 'Payment failed' :"Transaction Successfull"})
     } catch (error) {
         console.log(error);
         res.status(403).json({error:error, message:'Something went wrong'});
